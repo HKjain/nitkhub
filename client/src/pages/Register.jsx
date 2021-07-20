@@ -14,6 +14,7 @@ import KeyIcon from 'react-bootstrap-icons/dist/icons/key-fill'
 import PersonLineIcon from 'react-bootstrap-icons/dist/icons/person-lines-fill'
 import PeopleFillIcon from 'react-bootstrap-icons/dist/icons/people-fill'
 import EyeIcon from 'react-bootstrap-icons/dist/icons/eye-fill'
+import GIcon from 'react-bootstrap-icons/dist/icons/google'
 import Button from 'react-bootstrap/Button'
 
 import Colors from '../assets/Colors'
@@ -23,17 +24,22 @@ function Register(props) {
     const styles = {
         box: {
             width: "80%",
-            borderRadius: "5vh",
+            borderRadius: "0.8rem",
         },
         column: {
             height: "fit-content",
         },
         round: {
-            bottom: "-30px",
-            right: "-30px",
+            bottom: "-35px",
+            right: "-35px",
             borderRadius: "6vh",
-            height: "10em",
+            height: "10rem",
             width: "10rem",
+        },
+        round2: {
+            borderRadius: "6vh",
+            height: "100%",
+            width: "100%",
             backgroundColor: Colors.lightBlue,
         },
         forms: {
@@ -41,12 +47,20 @@ function Register(props) {
             width: '100%',
             padding: "10px",
         },
-        loginBtn: {
+        registerBtn: {
             fontWeight: "bold",
-            backgroundColor: Colors.lightBlue,
-            border: "none",
-            borderRadius: "2rem",
-        }
+            backgroundColor: 'transparent',
+            border: `2.5px solid ${Colors.lightBlue}`,
+            borderRadius: "0.4rem",
+            color: Colors.lightBlue
+        },
+        googleBtn: {
+            fontWeight: "bold",
+            backgroundColor: 'transparent',
+            border: `2.5px solid ${Colors.lightred}`,
+            borderRadius: "0.4rem",
+            color: Colors.lightred
+        },
     }
 
     axios.defaults.baseURL = "http://www.localhost:3001"
@@ -96,6 +110,10 @@ function Register(props) {
 
     }
 
+    const googleAuth = () => {
+        window.location.href = "http://localhost:3001/auth/google"
+    }
+
     const eyeToggle = () => {
         var element = document.getElementById('pass')
         if (element.getAttribute('type') === 'password') {
@@ -114,7 +132,10 @@ function Register(props) {
                     <Col lg={6} style={styles.column} className="p-1 my-5 d-flex justify-content-center">
                         <div style={styles.box} className="d-flex align-items-center flex-column overflow-hidden p-2 shadow-box position-relative h-75">
 
-                            <div className="animate-spin position-absolute" style={styles.round}>
+                            <div className="animate-spin bg-danger position-absolute" style={styles.round}>
+                                <div style={styles.round2} className="animate-color">
+
+                                </div>
                             </div>
 
                             <div style={styles.forms}>
@@ -208,8 +229,9 @@ function Register(props) {
                                         </InputGroup>
                                     </Form.Group>
 
-                                    <Button type="submit" style={styles.loginBtn} className="my-4 buttons letter-spacing-3 align-self-center w-50">R E G I S T E R</Button>
-
+                                    <Button type="submit" style={styles.registerBtn} className="mt-4 mb-1 buttons letter-spacing-3 align-self-center w-50">R E G I S T E R</Button>
+                                    <span className="align-self-center">OR</span>
+                                    <Button style={styles.googleBtn} onClick={googleAuth} className="my-1 buttons letter-spacing-3 googleBtn align-self-center w-50"><i><GIcon size={15} /></i> Sign in with Google</Button>
                                 </Form>
                                 <p>Already have an account? <Link to="/login" className="text-decoration-none" >Login</Link></p>
                             </div>

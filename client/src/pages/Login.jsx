@@ -20,17 +20,22 @@ function Login(props) {
     const styles = {
         box: {
             width: "80%",
-            borderRadius: "5vh",
+            borderRadius: "0.8rem",
         },
         column: {
             height: "fit-content",
         },
         round: {
-            bottom: "-30px",
-            right: "-30px",
+            bottom: "-35px",
+            right: "-35px",
             borderRadius: "6vh",
-            height: "10em",
+            height: "10rem",
             width: "10rem",
+        },
+        round2: {
+            borderRadius: "6vh",
+            height: "100%",
+            width: "100%",
             backgroundColor: Colors.lightBlue,
         },
         forms: {
@@ -40,9 +45,10 @@ function Login(props) {
         },
         loginBtn: {
             fontWeight: "bold",
-            backgroundColor: Colors.lightBlue,
-            border: "none",
-            borderRadius: "2rem",
+            backgroundColor: 'transparent',
+            border: `2.5px solid ${Colors.lightBlue}`,
+            borderRadius: "0.4rem",
+            color: Colors.lightBlue
         }
     }
 
@@ -84,7 +90,10 @@ function Login(props) {
                     <Col lg={6} style={styles.column} className="p-3 my-5 d-flex justify-content-center">
                         <div style={styles.box} className="d-flex align-items-center flex-column overflow-hidden p-2 shadow-box position-relative h-75">
 
-                            <div className="animate-spin position-absolute" style={styles.round}>
+                            <div className="animate-spin bg-danger position-absolute" style={styles.round}>
+                                <div style={styles.round2} className="animate-color">
+
+                                </div>
                             </div>
 
                             <div style={styles.forms}>

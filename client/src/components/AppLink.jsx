@@ -11,8 +11,8 @@ function AppLink(props) {
         button: {
             textDecoration: 'none',
             color: props.color,
-            backgroundColor: props.type === 'login' ? Colors.green : Colors.blue,
-            borderRadius: "5rem",
+            backgroundColor: props.type === 'login' ? Colors.green : Colors.lightBlue,
+            borderRadius: "0.4rem",
             minWidth: '8rem',
             maxWidth: '10rem',
             textAlign: 'center',

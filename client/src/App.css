@@ -1,14 +1,26 @@
+/* button */
+
 .buttons {
   font-family: roboto;
   overflow: hidden;
   position: relative;
-  transition: 0.2s transform ease-in-out;
+  transition: 0.35s transform ease;
   will-change: transform;
   z-index: 0;
 }
+.buttons:hover {
+  will-change: transform;
+  color:whitesmoke !important;
+  border: 2.5px solid transparent !important;
+  transform: scale(1.05);
+}
+.googleBtn::after {
+  background-color: red !important;
+}
+
 .buttons::after {
   background-color: #5700fa;
-  border-radius: 3rem;
+  border-radius: 0.4rem;
   content: '';
   display: block;
   height: 100%;
@@ -16,22 +28,18 @@
   position: absolute;
   left: 0;
   top: 0;
-  transform: translate(-100%, 0) rotate(10deg);
-  transform-origin: top left;
-  transition: 0.2s transform ease-out;
+  transform: scale(0);
+  transform-origin: center;
+  transition: 0.35s transform ease;
   will-change: transform;
   z-index: -1;
 }
 .buttons:hover::after {
-  transform: translate(0, 0);
-}
-.buttons:hover {
-  color: #4b0082;
-  transform: scale(1.05);
-  will-change: transform;
+  transform: scale(1);
 }
 
 
+/* animation */
 
 .animate-spin {
   animation: spin infinite 8s linear;
@@ -45,7 +53,6 @@
     transform: rotate(360deg);
   }
 }
-
 
 .animate-bounce {
   animation: bounce infinite 1s;
@@ -62,8 +69,22 @@
   }
 }
 
+.animate-color{
+  animation: colorChange infinite 10s;
+}
+
+@keyframes colorChange {
+  0% {background-color: #265cd8e0;}
+  25% {background-color: #7221de;}
+  50% {background-color: #2164de;}
+  75% {background-color: #4366b5;}
+  100% {background-color: #1b2598e0;}
+}
+
+/*  boxes (register/login)*/
+
 .shadow-box {
-  box-shadow: -1px 5px 18px 4px #c5cae9;
+  box-shadow: -5px 7px 15px 5px #c5cae9;
 }
 
 .form-control {
@@ -77,4 +98,58 @@
 .form-control:focus {
   box-shadow: none !important;
   border-bottom: 2px solid #00e676 !important;
+}
+
+
+/* navbar */
+.navbar-toggler {
+  background-color: azure !important;
+}
+
+.navbar-toggler-icon {
+  background-color: transparent;
+}
+
+.custom-nav {
+  background-color: 'red' !important;
+}
+
+.navbar-shadow::after {
+  background-image: -webkit-linear-gradient(rgba(67,102,181, 1),rgba(67,102,181, 1), rgba(67,102,181, 0), rgba(67,102,181, 0));
+    content: '';
+    display: block;
+    height: 75%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: -35px;
+    z-index: -1;
+    border: none;
+}
+
+.bottom-border {
+  border-bottom: 4px solid transparent;
+  transition: 0.8s ease;
+}
+
+.bottom-border::after {
+    background-color:azure;
+    border-radius: 100%;
+    content: '';
+    display: block;
+    height: 15%;
+    width: 100%;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    transform: scale(0);
+    transform-origin: center;
+    transition: 0.2s transform ease;
+    will-change: transform;
+    z-index: -1;
+    border: none;
+}
+
+.bottom-border:hover::after{
+  transform: scale(1);
 }
