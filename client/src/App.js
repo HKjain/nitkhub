@@ -2,7 +2,7 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
+  Route
 } from "react-router-dom";
 
 import AppNavbar from "./components/AppNavbar"
@@ -12,6 +12,7 @@ import Register from "./pages/Register"
 import Home from "./pages/Home"
 
 function App() {
+
   return (
     < Router >
       <>
