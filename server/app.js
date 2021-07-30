@@ -1,17 +1,16 @@
 const express = require('express')
 const dotenv = require('dotenv')
-const connectDB = require('./config/db')
 const passport = require('passport')
 const session = require('express-session')
 const cors = require('cors')
+
 // getting config
 dotenv.config({ path: './config/config.env' })
 
 //config for passport
 require('./config/passport')(passport)
 
-//connect database
-connectDB()
+const sequelize = require('./config/db')
 
 const app = express()
 app.use(cors({

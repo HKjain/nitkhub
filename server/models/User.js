@@ -5,6 +5,8 @@ const sequelize = new Sequelize(process.env.DB_DATABASE_NAME, process.env.DB_USE
     host: process.env.DB_HOST
 })
 
+sequelize.sync()
+
 const User = sequelize.define('User', {
     googleID: {
         type: DataTypes.TEXT,
@@ -16,7 +18,7 @@ const User = sequelize.define('User', {
     },
     last_name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     image: {
         type: DataTypes.TEXT,
