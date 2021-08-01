@@ -1,7 +1,8 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import axios from "axios"
+import { AuthContext } from '../helpers/AuthContext';
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -14,12 +15,14 @@ import KeyIcon from 'react-bootstrap-icons/dist/icons/key-fill'
 import PersonLineIcon from 'react-bootstrap-icons/dist/icons/person-lines-fill'
 import PeopleFillIcon from 'react-bootstrap-icons/dist/icons/people-fill'
 import EyeIcon from 'react-bootstrap-icons/dist/icons/eye-fill'
-import GIcon from 'react-bootstrap-icons/dist/icons/google'
+import CloseEye from 'react-bootstrap-icons/dist/icons/eye-slash-fill'
+// import GIcon from 'react-bootstrap-icons/dist/icons/google'
 import Button from 'react-bootstrap/Button'
 
 import Colors from '../assets/Colors'
 
 function Register(props) {
+    const history = useHistory()
 
     const styles = {
         box: {
@@ -65,6 +68,12 @@ function Register(props) {
 
     axios.defaults.baseURL = "http://www.localhost:3001"
 
+    const { authState } = useContext(AuthContext)
+
+    if (authState) {
+        history.push('/home')
+    }
+
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
@@ -73,6 +82,7 @@ function Register(props) {
         password: ''
     });
 
+    const [eye, setEye] = useState(true);
     const { first_name, last_name, gender, email, password } = formData;
     const [registerEr, setRegisterEr] = useState("")
 
@@ -88,39 +98,29 @@ function Register(props) {
         }
     }
 
-    useEffect(
-        () => {
-            document.title = "Register"
-        }, []
-    )
-
     const onSubmit = async (e) => {
-
-        e.preventDefault();
-        await axios.post("/api/register", { formData: formData }, { validateStatus: () => true }).then(res => {
-            if (res.status !== 201)
-                setRegisterEr(res.data.message)
+        e.preventDefault()
+        await axios.post("/auth/register", formData).then((res) => {
+            if (res.data.error)
+                setRegisterEr(res.data.error)
             else {
                 setRegisterEr(res.data.message)
-                document.location = "/login"
+                setTimeout(() => { history.push('/login') }, 3000)
             }
-        }).catch(errors => {
-            console.log(errors)
+
         })
-
-    }
-
-    const googleAuth = () => {
-        window.location.href = "http://localhost:3001/auth/google"
     }
 
     const eyeToggle = () => {
         var element = document.getElementById('pass')
         if (element.getAttribute('type') === 'password') {
             element.setAttribute('type', 'text')
+            setEye(!eye)
         }
-        else
+        else {
+            setEye(!eye)
             element.setAttribute('type', 'password')
+        }
     }
 
     return (
@@ -225,13 +225,15 @@ function Register(props) {
                                                 minLength="6"
                                                 required
                                             />
-                                            <EyeIcon size={20} className="d-flex align-self-center" onClick={() => eyeToggle()} style={{ color: Colors.lightBlue, cursor: 'pointer' }} />
+                                            {!eye && <EyeIcon size={20} className="d-flex align-self-center" onClick={() => eyeToggle()} style={{ color: Colors.lightBlue, cursor: 'pointer' }} />}
+                                            {eye && <CloseEye size={20} className="d-flex align-self-center" onClick={() => eyeToggle()} style={{ color: Colors.lightBlue, cursor: 'pointer' }} />}
+
                                         </InputGroup>
                                     </Form.Group>
 
                                     <Button type="submit" style={styles.registerBtn} className="mt-4 mb-1 buttons letter-spacing-3 align-self-center w-50">R E G I S T E R</Button>
-                                    <span className="align-self-center">OR</span>
-                                    <Button style={styles.googleBtn} onClick={googleAuth} className="my-1 buttons letter-spacing-3 googleBtn align-self-center w-50"><i><GIcon size={15} /></i> Sign in with Google</Button>
+                                    {/* <span className="align-self-center">OR</span>
+                                    <Button style={styles.googleBtn} onClick={googleAuth} className="my-1 buttons letter-spacing-3 googleBtn align-self-center w-50"><i><GIcon size={15} /></i> Sign in with Google</Button> */}
                                 </Form>
                                 <p>Already have an account? <Link to="/login" className="text-decoration-none" >Login</Link></p>
                             </div>

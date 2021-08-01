@@ -1,6 +1,8 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import axios from "axios"
+import { AuthContext } from '../helpers/AuthContext'
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -11,11 +13,14 @@ import PersonIcon from 'react-bootstrap-icons/dist/icons/person-circle'
 import EmailIcon from 'react-bootstrap-icons/dist/icons/envelope-open-fill'
 import KeyIcon from 'react-bootstrap-icons/dist/icons/key-fill'
 import EyeIcon from 'react-bootstrap-icons/dist/icons/eye-fill'
+import CloseEye from 'react-bootstrap-icons/dist/icons/eye-slash-fill'
 import Button from 'react-bootstrap/Button'
 
 import Colors from '../assets/Colors'
 
 function Login(props) {
+
+    const history = useHistory()
 
     const styles = {
         box: {
@@ -51,34 +56,54 @@ function Login(props) {
             color: Colors.lightBlue
         }
     }
+    const { setAuthState, setAuthUser, authState } = useContext(AuthContext)
 
+    if (authState) {
+        history.push('/home')
+    }
+
+    axios.defaults.baseURL = "http://www.localhost:3001"
+
+    const [loginEr, setLoginEr] = useState("")
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
-
+    const [eye, setEye] = useState(true);
     const { email, password } = formData;
 
     const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    useEffect(
-        () => {
-            document.title = "Login"
-        }, []
-    )
-
     const onSubmit = async (e) => {
         e.preventDefault();
-        alert(formData.email + " " + formData.password);
+
+        await axios.post('/auth/login', formData).then((res) => {
+            if (res.data.error)
+                setLoginEr(res.data.error)
+            else {
+                setLoginEr(res.data.message)
+                setAuthState(true)
+                setAuthUser(res.data.user_info)
+                localStorage.clear()
+                localStorage.setItem("token", res.data.token)
+                localStorage.setItem("user_info", JSON.stringify(res.data.user_info))
+                // console.log(JSON.parse(localStorage.getItem("user_info")).email)
+                history.push('/home')
+            }
+        })
+
     }
 
     const eyeToggle = () => {
         var element = document.getElementById('lpass')
         if (element.getAttribute('type') === 'password') {
             element.setAttribute('type', 'text')
+            setEye(!eye)
         }
-        else
+        else {
+            setEye(!eye)
             element.setAttribute('type', 'password')
+        }
     }
 
     return (
@@ -100,6 +125,7 @@ function Login(props) {
                                 <div className="d-flex my-2 flex-column align-items-center justify-content-center">
                                     <PersonIcon size={50} color={Colors.lightBlue} />
                                     <h3 style={{ color: Colors.lightBlue, marginTop: "20px", fontSize: 35 }}>LOGIN</h3>
+                                    {loginEr && <h5 style={{ color: Colors.lightred, marginTop: "3px", fontSize: 15 }}>{loginEr}</h5>}
                                 </div>
                                 <Form className="d-flex flex-column" onSubmit={(e) => onSubmit(e)}>
                                     {/* Email Address */}
@@ -126,7 +152,8 @@ function Login(props) {
                                                 id="lpass"
                                                 onChange={(e) => onChange(e)}
                                                 minLength="6" />
-                                            <EyeIcon size={20} className="d-flex align-self-center" onClick={() => eyeToggle()} style={{ color: Colors.lightBlue, cursor: 'pointer' }} />
+                                            {!eye && <EyeIcon size={20} className="d-flex align-self-center" onClick={() => eyeToggle()} style={{ color: Colors.lightBlue, cursor: 'pointer' }} />}
+                                            {eye && <CloseEye size={20} className="d-flex align-self-center" onClick={() => eyeToggle()} style={{ color: Colors.lightBlue, cursor: 'pointer' }} />}
                                         </InputGroup>
                                     </Form.Group>
 

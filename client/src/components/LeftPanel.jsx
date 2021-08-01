@@ -1,7 +1,7 @@
 import React from 'react';
 import Avatar from 'react-bootstrap-icons/dist/icons/person-circle'
 import background from '../assets/images/background.jpg'
-function LeftPanel(props) {
+function LeftPanel({ first_name, last_name, email }) {
 
     const tagItem = (tag) => (
         <p className="tag_title">
@@ -32,13 +32,15 @@ function LeftPanel(props) {
         },
     ]
 
+    const fullname = first_name + " " + last_name
+
     return (
         <div className="left_panel">
             <div className="left_top">
                 <img src={background} alt="" className="back-img" />
                 <Avatar size={45} className="sidebar_avatar" />
-                <h2>Harsh Kawadia</h2>
-                <h4>harshkawadia8.hk@gmail.com</h4>
+                <h2>{fullname}</h2>
+                <h4>{email}</h4>
             </div>
             <div className="left_bottom">
                 <p>Tags</p>
