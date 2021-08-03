@@ -13,10 +13,16 @@ function Home(props) {
         history.push('/')
     }
 
+
+    var fullname = ''
+    if (authState) {
+        fullname = (authUser.first_name) + " " + (authUser.last_name)
+    }
+
     return (
         <div className="main">
-            <LeftPanel first_name={authUser.first_name} last_name={authUser.last_name} email={authUser.email} />
-            <MainPanel />
+            <LeftPanel fullname={fullname} email={authUser.email} />
+            <MainPanel fullname={fullname} />
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import Avatar from 'react-bootstrap-icons/dist/icons/person-circle'
 import background from '../assets/images/background.jpg'
-function LeftPanel({ first_name, last_name, email }) {
+function LeftPanel({ fullname, email }) {
 
     const tagItem = (tag) => (
         <p className="tag_title">
@@ -31,8 +31,6 @@ function LeftPanel({ first_name, last_name, email }) {
             title: 'Placements'
         },
     ]
-
-    const fullname = first_name + " " + last_name
 
     return (
         <div className="left_panel">
