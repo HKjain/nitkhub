@@ -15,6 +15,7 @@ import KeyIcon from 'react-bootstrap-icons/dist/icons/key-fill'
 import EyeIcon from 'react-bootstrap-icons/dist/icons/eye-fill'
 import CloseEye from 'react-bootstrap-icons/dist/icons/eye-slash-fill'
 import Button from 'react-bootstrap/Button'
+import spinner from '../components/Spinner';
 
 import Colors from '../assets/Colors'
 
@@ -71,13 +72,15 @@ function Login(props) {
     });
     const [eye, setEye] = useState(true);
     const { email, password } = formData;
+    const [loading, setLoading] = useState(false)
 
     const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async (e) => {
         e.preventDefault();
-
+        setLoading(true)
         await axios.post('/auth/login', formData).then((res) => {
+            setLoading(false)
             if (res.data.error)
                 setLoginEr(res.data.error)
             else {
@@ -125,6 +128,7 @@ function Login(props) {
                                 <div className="d-flex my-2 flex-column align-items-center justify-content-center">
                                     <PersonIcon size={50} color={Colors.lightBlue} />
                                     <h3 style={{ color: Colors.lightBlue, marginTop: "20px", fontSize: 35 }}>LOGIN</h3>
+                                    {loading && spinner()}
                                     {loginEr && <h5 style={{ color: Colors.lightred, marginTop: "3px", fontSize: 15 }}>{loginEr}</h5>}
                                 </div>
                                 <Form className="d-flex flex-column" onSubmit={(e) => onSubmit(e)}>

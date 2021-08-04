@@ -18,6 +18,7 @@ import EyeIcon from 'react-bootstrap-icons/dist/icons/eye-fill'
 import CloseEye from 'react-bootstrap-icons/dist/icons/eye-slash-fill'
 // import GIcon from 'react-bootstrap-icons/dist/icons/google'
 import Button from 'react-bootstrap/Button'
+import spinner from '../components/Spinner';
 
 import Colors from '../assets/Colors'
 
@@ -85,6 +86,7 @@ function Register(props) {
     const [eye, setEye] = useState(true);
     const { first_name, last_name, gender, email, password } = formData;
     const [registerEr, setRegisterEr] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const onChange = (e) => {
         if ((e.target.name === 'first_name' || e.target.name === 'last_name') && e.target.value.length !== 0) {
@@ -100,7 +102,9 @@ function Register(props) {
 
     const onSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
         await axios.post("/auth/register", formData).then((res) => {
+            setLoading(false)
             if (res.data.error)
                 setRegisterEr(res.data.error)
             else {
@@ -142,6 +146,7 @@ function Register(props) {
                                 <div className="d-flex my-2 flex-column align-items-center justify-content-center">
                                     <PersonIcon size={50} color={Colors.lightBlue} />
                                     <h3 style={{ color: Colors.lightBlue, marginTop: "20px", fontSize: 35 }}>REGISTER</h3>
+                                    {loading && spinner()}
                                     {registerEr && <h5 style={{ color: Colors.lightred, marginTop: "3px", fontSize: 15 }}>{registerEr}</h5>}
                                 </div>
                                 <Form className="d-flex flex-column" onSubmit={(e) => onSubmit(e)}>
