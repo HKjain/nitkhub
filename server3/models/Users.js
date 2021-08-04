@@ -25,10 +25,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(10),
             allowNull: false,
         }
+        
     })
 
     Users.associate = (models) => {
-        Users.hasMany(models.Questions, {
+        Users.hasMany(models.Questions,{
             onDelete: 'cascade'
         })
     }
