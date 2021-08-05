@@ -5,5 +5,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         }
     })
+    Questions.associate = (models) => {
+        Questions.hasMany(models.Answers, {
+            onUpdate: 'cascade'
+        })
+    }
     return Questions
 }
