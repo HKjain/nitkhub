@@ -4,7 +4,7 @@ import background from '../assets/images/background.jpg'
 function LeftPanel({ fullname, email }) {
 
     const tagItem = (tag) => (
-        <p className="tag_title">
+        <p key={tag.id} className="tag_title">
             {tag.title}
         </p>
     )

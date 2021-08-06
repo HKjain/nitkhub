@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const { Questions } = require('../models')
+const { QueryTypes } = require('sequelize');
+const { Questions, sequelize } = require('../models')
 const { validateToken } = require('../middlewares/AuthMiddleware')
 
 // @route POST /question/post
@@ -28,9 +29,10 @@ router.post('/post', validateToken, async (req, res) => {
 // @desc  Get all questions
 // @access Private
 
-router.get('/get', validateToken, async (req, res) => {
+router.get('/get', async (req, res) => {
     try {
-        const questions = await Questions.findAll();
+        // const questions = await Questions.findAll();
+        const questions = await sequelize.query("select concat(u.first_name,' ',u.last_name) as asked_by, q.id, q.description, DATE_FORMAT(q.updatedAt, ' %d-%b-%Y %h:%i %p') as updatedAt from questions q, users u where u.id=q.UserId order by id desc", { type: QueryTypes.SELECT })
         res.json(questions);
     } catch (err) {
         console.log(err.message);

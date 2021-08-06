@@ -149,7 +149,7 @@ function Register(props) {
                                     {loading && spinner()}
                                     {registerEr && <h5 style={{ color: Colors.lightred, marginTop: "3px", fontSize: 15 }}>{registerEr}</h5>}
                                 </div>
-                                <Form className="d-flex flex-column" onSubmit={(e) => onSubmit(e)}>
+                                <Form className="d-flex mb-2 flex-column" onSubmit={(e) => onSubmit(e)}>
 
                                     {/* First Name */}
                                     <Form.Group id="first_name" className="my-3">
