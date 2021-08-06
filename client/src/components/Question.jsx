@@ -31,7 +31,7 @@ function Question({ question }) {
             </div>
             <div className="question_body">
                 <p className="question_description">{question.description}</p>
-                <a href="www.google.com">Answers &#x3e;</a>
+                <a href="answer">Answers &#x3e;</a>
             </div>
         </div>
     );

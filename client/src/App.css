@@ -376,6 +376,75 @@ Question
   font-weight: 500;
 }
 
+/* 
+Answer
+*/
+
+.answer {
+  background-color: white;
+  padding: 10px;
+  /* margin-top: 10px; */
+  border: 1px #2b2c30bb dashed;
+}
+
+.answer_head {
+  display: flex;
+  margin-bottom: 15px;
+  justify-content: space-between;
+}
+
+.answer_head > .details {
+  display: flex;
+}
+
+.answer_info {
+  margin-left: 5px;
+}
+
+.answer_info > h6 {
+  margin: 0px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: bold;
+}
+
+.answer_info > p {
+  margin: 0px;
+  font-size: 13px;
+  color: gray;
+}
+
+.answer_body {
+  padding-left: 30px;
+  padding-right: 30px;
+  text-align: justify;
+}
+
+.box {
+  padding: 15px;
+  background-color: white;
+  border: 1px #2b2c30bb dashed;
+}
+
+.timeline > .ans_input_box {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 10px;
+  border: 1px #2b2c30bb dashed;;
+  margin-bottom: 20px; 
+}
+
+.ans_input_btn {
+  border: 1px solid lightgray;
+  display: flex;
+  margin-bottom: 10px;
+  color: gray;
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 25px;
+}
+
 @media screen and (max-width: 528px){
   .left_panel {
     position: relative;
