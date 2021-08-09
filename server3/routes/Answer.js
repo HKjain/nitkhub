@@ -11,7 +11,6 @@ const { QueryTypes } = require('sequelize');
 router.post('/post', validateToken, async (req, res) => {
     try {
         const { description, QuestionId } = req.body
-        console.log(QuestionId)
         const newAnswer = await Answers.create({
             description: description,
             QuestionId: QuestionId,
@@ -48,6 +47,36 @@ router.get('/get/:ques_id', validateToken, async (req, res) => {
         console.log(err.message);
         res.status(500).send('Server Error');
     }
+})
+
+// @route GET /answer/getUserAnswers/:user_id
+// @desc  Get Answers by user ID
+// @access Private
+
+router.get('/getUserAnswers/:user_id', validateToken, async (req, res) => {
+    try {
+        const answers = await Answers.findAll({ where: { UserId: req.params.user_id } });
+        if (!answers) {
+            return res.status(400).json({ msg: 'Answers Not Found' });
+        }
+        res.json(answers);
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+// @route POST /answer/deleteAnswer/:answer_id
+// @desc  Delete Answers by answer ID
+// @access Private
+
+router.post('/deleteAnswer/:answer_id', async (req, res) => {
+
+    const id = req.params.answer_id
+    // console.log(id)
+    sequelize.query(`delete from answers where id=${id}`)  
+
 })
 
 module.exports = router

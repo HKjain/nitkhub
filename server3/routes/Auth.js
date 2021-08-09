@@ -4,6 +4,10 @@ const { Users } = require('../models')
 const bcrypt = require('bcrypt')
 const { validateToken } = require('../middlewares/AuthMiddleware')
 
+const { QueryTypes } = require('sequelize');
+const { Questions, sequelize } = require('../models')
+
+
 const { sign } = require('jsonwebtoken')
 
 router.post('/register', async (req, res) => {
@@ -50,6 +54,26 @@ router.post('/login', async (req, res) => {
         })
     }
 
+})
+
+router.post('/changePassword', async (req, res) => {
+    const { email, oldpassword, newpassword } = req.body
+
+    const user = await Users.findOne({ where: { email: email } })
+
+    if (!user) res.json({ error: "User not Registered!!" })
+    else {
+        bcrypt.compare(oldpassword, user.password).then((valid) => {
+            if (!valid)
+                res.json({ error: "Invalid Credentials!!" })
+            else {
+                bcrypt.hash(newpassword, 12).then(async (hash) => {
+                    const questions = await sequelize.query("update users set password = '" + hash + "' where email LIKE '" + email+"'", { type: QueryTypes.UPDATE })
+                    res.json({ message: "Update Successfull!!" })
+                })
+            }
+    })
+}
 })
 
 router.get('/user', validateToken, (req, res) => {

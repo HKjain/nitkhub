@@ -485,3 +485,27 @@ Answer
     background-color: white;
   }
 }
+
+/* Profile Panel User Info */
+
+.form-control {
+  border-radius: 2px;
+  font-size: .825rem;
+  background: #ffffff;
+  color: #2e323c;
+}
+
+.card {
+  background: #ffffff;
+  margin-bottom: 1rem;
+  width:100%;
+}
+
+.timeline > .container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 10px;
+  margin-bottom: 20px; 
+  border-radius: 20px;
+}

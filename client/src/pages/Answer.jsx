@@ -14,7 +14,6 @@ function AnswerPage(props) {
         history.push('/')
     }
 
-    const [question, setQuestion] = useState([])
     const [answers, setAnswers] = useState([])
 
     const { id } = useParams()
@@ -25,8 +24,7 @@ function AnswerPage(props) {
                 token: localStorage.getItem("token")
             }
         }).then((resp) => {
-            setAnswers(resp.data.answers)
-            setQuestion(resp.data.question)
+            setAnswers(resp.data)
         })
     }
 
@@ -43,7 +41,7 @@ function AnswerPage(props) {
     return (
         <div className="main">
             <LeftPanel fullname={fullname} email={authUser.email} />
-            <AnswerPanel key={id} fullname={fullname} question={question} answers={answers} resetAnswers={answer} />
+            <AnswerPanel key={id} answers={answers} />
         </div>
     )
 }

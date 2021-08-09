@@ -40,7 +40,6 @@ router.get('/get', async (req, res) => {
     }
 })
 
-
 // @route GET /question/get/:user_id
 // @desc  Get Questions by user ID
 // @access Private

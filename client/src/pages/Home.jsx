@@ -7,10 +7,13 @@ import axios from 'axios';
 
 function Home(props) {
 
+    // console.log(props)
+
     const history = useHistory()
     const { authState, authUser } = useContext(AuthContext)
 
-    if (authState === false) {
+    if (authState === false)
+    {
         history.push('/')
     }
 
@@ -30,6 +33,8 @@ function Home(props) {
     if (authState) {
         fullname = (authUser.first_name) + " " + (authUser.last_name)
     }
+
+    // console.log(authUser)
 
     return (
         <div className="main">

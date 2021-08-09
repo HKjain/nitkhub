@@ -33,13 +33,15 @@ function LeftPanel({ fullname, email }) {
     ]
 
     return (
-        <div className="left_panel">
-            <div className="left_top">
-                <img src={background} alt="" className="back-img" />
-                <Avatar size={45} className="sidebar_avatar" />
-                <h2>{fullname}</h2>
-                <h4>{email}</h4>
-            </div>
+        <div className="left_panel" >
+            <a href="/profile">
+                <div className="left_top">
+                    <img src={background} alt="" className="back-img" />
+                    <Avatar size={45} className="sidebar_avatar" />
+                    <h2>{fullname}</h2>
+                    <h4>{email}</h4>
+                </div>
+            </a>
             <div className="left_bottom">
                 <p>Tags</p>
                 <div className="tag_items">
