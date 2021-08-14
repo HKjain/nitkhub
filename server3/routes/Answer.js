@@ -11,7 +11,6 @@ const { QueryTypes } = require('sequelize');
 router.post('/post', validateToken, async (req, res) => {
     try {
         const { description, QuestionId } = req.body
-        console.log(QuestionId)
         const newAnswer = await Answers.create({
             description: description,
             QuestionId: QuestionId,
@@ -43,6 +42,71 @@ router.get('/get/:ques_id', validateToken, async (req, res) => {
             return res.status(400).json({ msg: 'Answers Not Found', answers: [], question: question });
         }
         res.json({ answers: answers, question: question });
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+// @route GET /answer/getUserAnswers/:user_id
+// @desc  Get Answers by user ID
+// @access Private
+
+router.get('/getUserAnswers/:user_id/:ques_id', validateToken,async (req, res) => {
+    try {
+        const user_id = req.params.user_id
+        const ques_id = req.params.ques_id
+        const answers = await sequelize.query(`select a.id as id, a.description, DATE_FORMAT(a.createdAt, '%d-%b-%Y %h:%i%p') as createdAt,DATE_FORMAT(a.updatedAt, '%d-%b-%Y %h:%i%p') as updatedAt from answers a where a.QuestionId = ${ques_id} and a.UserId = ${user_id}`, {type: QueryTypes.SELECT})
+        
+        console.log(answers)
+
+        if (answers.length===0) {
+            return res.status(400).json({ msg: 'Answers Not Found' });
+        }
+        res.json(answers);
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+
+// @route DELETE /question/delete/:ques_id
+// @desc  Delete Question by Ques ID
+// @access Private
+
+router.delete('/delete/:ans_id', validateToken, async (req, res) => {
+    try {
+        const ans_deleted = await Answers.destroy({ where: { id: req.params.ans_id } });
+        if (!ans_deleted) {
+            return res.status(400).json({ msg: 'Question Not Found' });
+        }
+        console.log('Deleted Successfully');
+        res.json(ans_deleted);
+
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+// @route UPDATE /question/put/:ques_id
+// @desc  Update Question by Ques ID
+// @access Private
+
+router.put('/put/:ans_id', validateToken,async (req, res) => {
+    try {
+        const answer = await Answers.findAll({ where: { id: req.params.ans_id } });
+        if (!answer) {
+            return res.status(400).json('Answer not found!');
+        }
+
+        await Answers.update({ description: req.body.description }, { where: { id: req.params.ans_id } });
+
+        const updated_answer = await Answers.findAll({ where: { id: req.params.ans_id } });
+        res.json(updated_answer);
 
     } catch (err) {
         console.log(err.message);

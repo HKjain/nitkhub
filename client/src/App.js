@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import AOS from 'aos'
+import "aos/dist/aos.css";
 
 
 import { AuthContext } from './helpers/AuthContext'
@@ -15,6 +17,10 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
 import AnswerPage from './pages/Answer';
+import Profile from './pages/Profile';
+import UserQuestions from './pages/UserQuestions';
+import UserAnswers from './pages/UserAnswers';
+
 
 function App() {
 
@@ -22,6 +28,14 @@ function App() {
   const [authUser, setAuthUser] = useState({})
 
   useEffect(() => {
+
+    AOS.init({
+      offset: -20,
+      easing: 'ease-in-sine',
+      delay: 100,
+    });
+
+
     axios.get('http://localhost:3001/auth/user', {
       headers: {
         token: localStorage.getItem("token")
@@ -33,7 +47,7 @@ function App() {
       }
       else {
         setAuthState(true)
-        setAuthUser(res.data)
+        setAuthUser(res.data.user_d)
       }
     })
   }, [])
@@ -50,6 +64,9 @@ function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/home" component={Home} />
             <Route exact path="/answer/:id" component={AnswerPage} />
+            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/userQuestions/" component={UserQuestions} />
+            <Route exact path="/userAnswers/" component={UserAnswers} />
           </Switch>
 
         </>

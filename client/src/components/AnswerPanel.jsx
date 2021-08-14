@@ -39,13 +39,13 @@ function AnswerPage({ fullname, question, answers, resetAnswers }) {
             {question &&
                 question.map((question) => <Question key={question.id} question={question} showsLink={false} />)
             }
-            {answers &&
+            {answers.length !== 0 &&
                 <>
                     <div className="box">All Answers</div>
                     {answers.map((answer) => <AnswerBox key={answer.id} answer={answer} />)}
                 </>
             }
-            {!answers &&
+            {answers.length === 0 &&
                 < h5 > No Answers Yet!</h5>
             }
             <div className="ans_input_box mt-3">

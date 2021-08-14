@@ -90,11 +90,9 @@ function Login(props) {
                 localStorage.clear()
                 localStorage.setItem("token", res.data.token)
                 localStorage.setItem("user_info", JSON.stringify(res.data.user_info))
-                // console.log(JSON.parse(localStorage.getItem("user_info")).email)
                 history.push('/home')
             }
         })
-
     }
 
     const eyeToggle = () => {

@@ -37,7 +37,7 @@ function MainPanel({ fullname, questions, resetQuestions }) {
     }
 
     return (
-        <div className="timeline">
+        <div className="timeline pb-5">
             <div className="input_box">
                 <div className="user_info">
                     <Avatar size={23} className="sidebar_avatar" />
@@ -52,7 +52,7 @@ function MainPanel({ fullname, questions, resetQuestions }) {
             </div>
 
             {
-                questions.map((question) => <Question key={question.id} question={question} />)
+                questions.map((question) => <Question key={question.id} question={question} animate="zoom-in" />)
             }
 
         </div>

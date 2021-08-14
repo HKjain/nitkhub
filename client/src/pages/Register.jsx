@@ -16,7 +16,7 @@ import PersonLineIcon from 'react-bootstrap-icons/dist/icons/person-lines-fill'
 import PeopleFillIcon from 'react-bootstrap-icons/dist/icons/people-fill'
 import EyeIcon from 'react-bootstrap-icons/dist/icons/eye-fill'
 import CloseEye from 'react-bootstrap-icons/dist/icons/eye-slash-fill'
-// import GIcon from 'react-bootstrap-icons/dist/icons/google'
+
 import Button from 'react-bootstrap/Button'
 import spinner from '../components/Spinner';
 
@@ -237,8 +237,6 @@ function Register(props) {
                                     </Form.Group>
 
                                     <Button type="submit" style={styles.registerBtn} className="mt-4 mb-1 buttons letter-spacing-3 align-self-center w-50">R E G I S T E R</Button>
-                                    {/* <span className="align-self-center">OR</span>
-                                    <Button style={styles.googleBtn} onClick={googleAuth} className="my-1 buttons letter-spacing-3 googleBtn align-self-center w-50"><i><GIcon size={15} /></i> Sign in with Google</Button> */}
                                 </Form>
                                 <p>Already have an account? <Link to="/login" className="text-decoration-none" >Login</Link></p>
                             </div>

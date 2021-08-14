@@ -4,44 +4,36 @@ import background from '../assets/images/background.jpg'
 function LeftPanel({ fullname, email }) {
 
     const tagItem = (tag) => (
-        <p key={tag.id} className="tag_title">
+        <a key={tag.id} className="tag_title" href={tag.link}>
             {tag.title}
-        </p>
+        </a>
     )
 
     const tags = [
         {
-            id: 123,
-            title: 'Programming'
+            id: 128,
+            title: 'My Questions',
+            link: '/userQuestions'
         },
         {
-            id: 124,
-            title: 'Admission'
-        },
-        {
-            id: 125,
-            title: 'Activities'
-        },
-        {
-            id: 126,
-            title: 'Curriculum'
-        },
-        {
-            id: 127,
-            title: 'Placements'
-        },
+            id: 129,
+            title: 'My Answers',
+            link: '/userAnswers'
+        }
     ]
 
     return (
-        <div className="left_panel">
-            <div className="left_top">
-                <img src={background} alt="" className="back-img" />
-                <Avatar size={45} className="sidebar_avatar" />
-                <h2>{fullname}</h2>
-                <h4>{email}</h4>
-            </div>
+        <div className="left_panel" >
+            <a href="/profile">
+                <div className="left_top">
+                    <img src={background} alt="" className="back-img" />
+                    <Avatar size={45} className="sidebar_avatar" />
+                    <h2>{fullname}</h2>
+                    <h4>{email}</h4>
+                </div>
+            </a>
             <div className="left_bottom">
-                <p>Tags</p>
+                <p>Profile Options</p>
                 <div className="tag_items">
                     {
                         tags.map((tag) => tagItem(tag))
