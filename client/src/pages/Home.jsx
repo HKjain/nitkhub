@@ -1,31 +1,42 @@
-import React from 'react'
-import { useEffect } from 'react'
-import Container from 'react-bootstrap/Container'
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom'
+import LeftPanel from '../components/LeftPanel';
+import MainPanel from '../components/MainPanel';
+import { AuthContext } from '../helpers/AuthContext'
+import axios from 'axios';
 
-import AppLink from '../components/AppLink'
+function Home(props) {
 
-export default function Home() {
+    const history = useHistory()
+    const { authState, authUser } = useContext(AuthContext)
 
-    const styles = {
-        main_container: {
-            height: "35rem",
-        },
+    if (authState === false) {
+        history.push('/')
+    }
+
+    const [questions, setQuestions] = useState([])
+
+    const question = () => {
+        axios.get('/question/get').then((resp) => {
+            setQuestions(resp.data)
+        })
     }
 
     useEffect(() => {
-        document.title = "NITK-HUB"
+        question()
     }, [])
 
+    var fullname = ''
+    if (authState) {
+        fullname = (authUser.first_name) + " " + (authUser.last_name)
+    }
+
     return (
-
-        <>
-            <Container className="mt-3 d-flex justify-content-center align-items-center" style={styles.main_container}>
-                <div className="d-flex justify-content-around">
-                    <AppLink type="login" className="mx-1 my-1 buttons animate-bounce" />
-                    <AppLink type="register" className="mx-1 my-1 buttons animate-bounce" />
-                </div>
-            </Container>
-        </>
-
+        <div className="main">
+            <LeftPanel fullname={fullname} email={authUser.email} />
+            <MainPanel fullname={fullname} questions={questions} resetQuestions={question} />
+        </div>
     )
 }
+
+export default Home;

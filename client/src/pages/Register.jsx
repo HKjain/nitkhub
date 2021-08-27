@@ -1,7 +1,8 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import axios from "axios"
+import { AuthContext } from '../helpers/AuthContext';
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -14,26 +15,35 @@ import KeyIcon from 'react-bootstrap-icons/dist/icons/key-fill'
 import PersonLineIcon from 'react-bootstrap-icons/dist/icons/person-lines-fill'
 import PeopleFillIcon from 'react-bootstrap-icons/dist/icons/people-fill'
 import EyeIcon from 'react-bootstrap-icons/dist/icons/eye-fill'
+import CloseEye from 'react-bootstrap-icons/dist/icons/eye-slash-fill'
+
 import Button from 'react-bootstrap/Button'
+import spinner from '../components/Spinner';
 
 import Colors from '../assets/Colors'
 
 function Register(props) {
+    const history = useHistory()
 
     const styles = {
         box: {
             width: "80%",
-            borderRadius: "5vh",
+            borderRadius: "0.8rem",
         },
         column: {
             height: "fit-content",
         },
         round: {
-            bottom: "-30px",
-            right: "-30px",
+            bottom: "-35px",
+            right: "-35px",
             borderRadius: "6vh",
-            height: "10em",
+            height: "10rem",
             width: "10rem",
+        },
+        round2: {
+            borderRadius: "6vh",
+            height: "100%",
+            width: "100%",
             backgroundColor: Colors.lightBlue,
         },
         forms: {
@@ -41,15 +51,29 @@ function Register(props) {
             width: '100%',
             padding: "10px",
         },
-        loginBtn: {
+        registerBtn: {
             fontWeight: "bold",
-            backgroundColor: Colors.lightBlue,
-            border: "none",
-            borderRadius: "2rem",
-        }
+            backgroundColor: 'transparent',
+            border: `2.5px solid ${Colors.lightBlue}`,
+            borderRadius: "0.4rem",
+            color: Colors.lightBlue
+        },
+        googleBtn: {
+            fontWeight: "bold",
+            backgroundColor: 'transparent',
+            border: `2.5px solid ${Colors.lightred}`,
+            borderRadius: "0.4rem",
+            color: Colors.lightred
+        },
     }
 
     axios.defaults.baseURL = "http://www.localhost:3001"
+
+    const { authState } = useContext(AuthContext)
+
+    if (authState) {
+        history.push('/home')
+    }
 
     const [formData, setFormData] = useState({
         first_name: '',
@@ -59,8 +83,10 @@ function Register(props) {
         password: ''
     });
 
+    const [eye, setEye] = useState(true);
     const { first_name, last_name, gender, email, password } = formData;
     const [registerEr, setRegisterEr] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const onChange = (e) => {
         if ((e.target.name === 'first_name' || e.target.name === 'last_name') && e.target.value.length !== 0) {
@@ -74,35 +100,31 @@ function Register(props) {
         }
     }
 
-    useEffect(
-        () => {
-            document.title = "Register"
-        }, []
-    )
-
     const onSubmit = async (e) => {
-
-        e.preventDefault();
-        await axios.post("/api/register", { formData: formData }, { validateStatus: () => true }).then(res => {
-            if (res.status !== 201)
-                setRegisterEr(res.data.message)
+        e.preventDefault()
+        setLoading(true)
+        await axios.post("/auth/register", formData).then((res) => {
+            setLoading(false)
+            if (res.data.error)
+                setRegisterEr(res.data.error)
             else {
                 setRegisterEr(res.data.message)
-                document.location = "/login"
+                setTimeout(() => { history.push('/login') }, 3000)
             }
-        }).catch(errors => {
-            console.log(errors)
-        })
 
+        })
     }
 
     const eyeToggle = () => {
         var element = document.getElementById('pass')
         if (element.getAttribute('type') === 'password') {
             element.setAttribute('type', 'text')
+            setEye(!eye)
         }
-        else
+        else {
+            setEye(!eye)
             element.setAttribute('type', 'password')
+        }
     }
 
     return (
@@ -114,16 +136,20 @@ function Register(props) {
                     <Col lg={6} style={styles.column} className="p-1 my-5 d-flex justify-content-center">
                         <div style={styles.box} className="d-flex align-items-center flex-column overflow-hidden p-2 shadow-box position-relative h-75">
 
-                            <div className="animate-spin position-absolute" style={styles.round}>
+                            <div className="animate-spin bg-danger position-absolute" style={styles.round}>
+                                <div style={styles.round2} className="animate-color">
+
+                                </div>
                             </div>
 
                             <div style={styles.forms}>
                                 <div className="d-flex my-2 flex-column align-items-center justify-content-center">
                                     <PersonIcon size={50} color={Colors.lightBlue} />
                                     <h3 style={{ color: Colors.lightBlue, marginTop: "20px", fontSize: 35 }}>REGISTER</h3>
+                                    {loading && spinner()}
                                     {registerEr && <h5 style={{ color: Colors.lightred, marginTop: "3px", fontSize: 15 }}>{registerEr}</h5>}
                                 </div>
-                                <Form className="d-flex flex-column" onSubmit={(e) => onSubmit(e)}>
+                                <Form className="d-flex mb-2 flex-column" onSubmit={(e) => onSubmit(e)}>
 
                                     {/* First Name */}
                                     <Form.Group id="first_name" className="my-3">
@@ -204,12 +230,13 @@ function Register(props) {
                                                 minLength="6"
                                                 required
                                             />
-                                            <EyeIcon size={20} className="d-flex align-self-center" onClick={() => eyeToggle()} style={{ color: Colors.lightBlue, cursor: 'pointer' }} />
+                                            {!eye && <EyeIcon size={20} className="d-flex align-self-center" onClick={() => eyeToggle()} style={{ color: Colors.lightBlue, cursor: 'pointer' }} />}
+                                            {eye && <CloseEye size={20} className="d-flex align-self-center" onClick={() => eyeToggle()} style={{ color: Colors.lightBlue, cursor: 'pointer' }} />}
+
                                         </InputGroup>
                                     </Form.Group>
 
-                                    <Button type="submit" style={styles.loginBtn} className="my-4 buttons letter-spacing-3 align-self-center w-50">R E G I S T E R</Button>
-
+                                    <Button type="submit" style={styles.registerBtn} className="mt-4 mb-1 buttons letter-spacing-3 align-self-center w-50">R E G I S T E R</Button>
                                 </Form>
                                 <p>Already have an account? <Link to="/login" className="text-decoration-none" >Login</Link></p>
                             </div>
