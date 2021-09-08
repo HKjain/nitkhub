@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     })
     Questions.associate = (models) => {
         Questions.hasMany(models.Answers, {
-            onUpdate: 'cascade'
+            onUpdate: 'cascade',
+            onDelete: 'cascade'
         })
     }
     return Questions
