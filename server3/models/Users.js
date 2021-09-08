@@ -17,10 +17,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        phone: {
-            type: DataTypes.STRING(10),
-            allowNull: true,
-        },
         gender: {
             type: DataTypes.STRING(10),
             allowNull: false,
@@ -29,10 +25,12 @@ module.exports = (sequelize, DataTypes) => {
 
     Users.associate = (models) => {
         Users.hasMany(models.Questions, {
-            onDelete: 'cascade'
+            onDelete: 'cascade',
+            onUpdate: 'cascade'
         })
         Users.hasMany(models.Answers, {
-            onDelete: 'cascade'
+            onDelete: 'cascade',
+            onUpdate: 'cascade'
         })
     }
 

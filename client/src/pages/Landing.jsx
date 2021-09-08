@@ -6,7 +6,8 @@ export default function Landing() {
 
     const styles = {
         main_container: {
-            height: "35rem",
+            height: "38rem",
+            overflow: 'hidden'
         },
     }
 
@@ -16,11 +17,25 @@ export default function Landing() {
 
     return (
 
-        <>
-            <Container className="mt-3 d-flex flex-column justify-content-center align-items-center" style={styles.main_container}>
+        <React.Fragment>
+
+            <Container fluid className="d-flex flex-column justify-content-center align-items-center" style={styles.main_container}>
                 <h1 className="animate-bounce">Hello Users, Welcome to the NITK Community</h1>
+                <div className="decors topr">
+                </div>
+                <div className="dround firstr">
+                </div>
+                <div className="dround secondr">
+                </div>
+                <div className="dround thirdr">
+                </div>
+                <div className="dround fourthr">
+                </div>
+                <div className="dround fiver">
+                </div>
             </Container>
-        </>
+
+        </React.Fragment>
 
     )
 }
