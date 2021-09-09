@@ -6,7 +6,7 @@ function Question({ question, showsLink = true, animate = "" }) {
     const history = useHistory()
 
     return (
-        <div className="question" data-aos={animate}>
+        <div className="question">
             <div className="question_head">
                 <div className="details">
                     <Avatar size={45} className="sidebar_avatar" />
