@@ -20,10 +20,12 @@ export default function Landing() {
         <React.Fragment>
 
             <Container fluid className="d-flex flex-column justify-content-center align-items-center" style={styles.main_container}>
-                <h1 className="animate-bounce">Hello Users, Welcome to the NITK Community</h1>
+                <h1 className="animate-bounce">Hello!!! Welcome to your Community</h1>
                 <div className="decors topr">
                 </div>
                 <div className="dround firstr">
+                </div>
+                <div className="dround secondnr">
                 </div>
                 <div className="dround secondr">
                 </div>

@@ -10,14 +10,14 @@
   width: 300px;
   transform: rotate(30deg);
   position: absolute;
-  border-radius: 60px;
+  border-radius: 90px;
   background-color: #7191d8;
   overflow: hidden;
 }
 
 .topr {
-  top: -20px;
-  left: -40px;
+  top: 10px;
+  left: -30px;
 }
 
 .dround {
@@ -40,6 +40,14 @@
   top: 460px;
   height: 90px;
   width: 90px;
+  opacity: 0.8;
+}
+
+.secondnr {
+  left: 420px;
+  top: 460px;
+  height: 20px;
+  width: 20px;
   opacity: 0.8;
 }
 
