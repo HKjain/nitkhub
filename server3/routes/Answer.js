@@ -49,19 +49,19 @@ router.get('/get/:ques_id', validateToken, async (req, res) => {
     }
 })
 
-// @route GET /answer/getUserAnswers/:user_id
-// @desc  Get Answers by user ID
+// @route GET /answer/getUserAnswers/:user_id/:ques_id
+// @desc  Get Answers by user ID and question ID
 // @access Private
 
-router.get('/getUserAnswers/:user_id/:ques_id', validateToken,async (req, res) => {
+router.get('/getUserAnswers/:user_id/:ques_id', validateToken, async (req, res) => {
     try {
         const user_id = req.params.user_id
         const ques_id = req.params.ques_id
-        const answers = await sequelize.query(`select a.id as id, a.description, DATE_FORMAT(a.createdAt, '%d-%b-%Y %h:%i%p') as createdAt,DATE_FORMAT(a.updatedAt, '%d-%b-%Y %h:%i%p') as updatedAt from answers a where a.QuestionId = ${ques_id} and a.UserId = ${user_id}`, {type: QueryTypes.SELECT})
-        
+        const answers = await sequelize.query(`select a.id as id, a.description, DATE_FORMAT(a.createdAt, '%d-%b-%Y %h:%i%p') as createdAt,DATE_FORMAT(a.updatedAt, '%d-%b-%Y %h:%i%p') as updatedAt from answers a where a.QuestionId = ${ques_id} and a.UserId = ${user_id}`, { type: QueryTypes.SELECT })
+
         console.log(answers)
 
-        if (answers.length===0) {
+        if (answers.length === 0) {
             return res.status(400).json({ msg: 'Answers Not Found' });
         }
         res.json(answers);
@@ -73,8 +73,8 @@ router.get('/getUserAnswers/:user_id/:ques_id', validateToken,async (req, res) =
 })
 
 
-// @route DELETE /question/delete/:ques_id
-// @desc  Delete Question by Ques ID
+// @route DELETE /answer/delete/:ans_id
+// @desc  Delete Answer by Ans ID
 // @access Private
 
 router.delete('/delete/:ans_id', validateToken, async (req, res) => {
@@ -92,11 +92,11 @@ router.delete('/delete/:ans_id', validateToken, async (req, res) => {
     }
 })
 
-// @route UPDATE /question/put/:ques_id
-// @desc  Update Question by Ques ID
+// @route UPDATE /answer/put/:ans_id
+// @desc  Update Answer by Ans ID
 // @access Private
 
-router.put('/put/:ans_id', validateToken,async (req, res) => {
+router.put('/put/:ans_id', validateToken, async (req, res) => {
     try {
         const answer = await Answers.findAll({ where: { id: req.params.ans_id } });
         if (!answer) {
