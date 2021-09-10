@@ -45,7 +45,7 @@ function UserQA({ question, userId, resetAll }) {
     }
 
     return (
-        <div className="question" data-aos='zoom-in'>
+        <div className="question">
             <div className="question_head">
                 <div className="details">
                     <Avatar size={45} className="sidebar_avatar" />

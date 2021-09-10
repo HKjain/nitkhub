@@ -9,7 +9,7 @@ function QuestionsPanel({ question, resetQuestions }) {
 
     const onDelete = async (id) => {
 
-        const reply = window.confirm('Sure to Delete the comment?')
+        const reply = window.confirm('Sure to Delete the question?')
         if (reply) {
             await axios.delete(`/question/delete/${id}`, {
                 headers: {
